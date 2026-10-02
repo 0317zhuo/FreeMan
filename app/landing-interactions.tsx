@@ -44,6 +44,13 @@ export function EntryAction({ entry, children, className, onChoose }: { entry: E
     : <button type="button" className={className} onClick={() => { onChoose?.(); show(`${target.name}页面待开发。`); }}>{children}</button>;
 }
 
+export function ProjectRepositoryLink({ name, href }: { name: string; href?: string }) {
+  const show = useContext(FeedbackContext);
+  return href
+    ? <a href={href} className={styles.projectLink} target="_blank" rel="noopener noreferrer" aria-label={`查看 ${name} 的 GitHub 仓库（在新标签页打开）`}><span>GitHub</span><span aria-hidden="true">↗</span></a>
+    : <button type="button" className={styles.projectLink} aria-label={`${name} 的 GitHub 仓库链接待配置`} onClick={() => show(`${name} 的 GitHub 仓库链接待配置。`)}><span>GitHub</span><small>待配置</small></button>;
+}
+
 export function ConnectionAction({ connection, community = false, children, className }: { connection: Connection; community?: boolean; children?: ReactNode; className?: string }) {
   const show = useContext(FeedbackContext);
   const content = children ?? <><Image src={`/icons/${connection.icon}.svg`} width={18} height={18} alt="" />{connection.name}</>;
@@ -65,8 +72,8 @@ export function Header() {
     query.addEventListener("change", onResize);
     return () => { document.removeEventListener("keydown", onKey); query.removeEventListener("change", onResize); };
   }, [open, closeMenu]);
-  const items = (mobile = false) => navigation.map((item, index) => {
-    const content = <><span className={styles.navIndex}>0{index + 1}</span>{item.label}{item.badge && <span className={styles.navBadge}>{item.badge}</span>}</>;
+  const items = (mobile = false) => navigation.map((item) => {
+    const content = <>{item.label}{item.badge && <span className={styles.navBadge}>{item.badge}</span>}</>;
     return item.entry
       ? <EntryAction key={item.label} entry={item.entry} className={styles.navLink} onChoose={mobile ? closeMenu : undefined}>{content}</EntryAction>
       : <a key={item.label} className={styles.navLink} href={item.href} onClick={mobile ? closeMenu : undefined}>{content}</a>;

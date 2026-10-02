@@ -26,6 +26,11 @@ export const communities: (Connection & { description: string })[] = [
   { name: "Discord", icon: "discord", description: "主题讨论 · 项目协作" },
   { name: "Telegram", icon: "telegram", description: "灵感分享 · 日常交流" },
   { name: "QQ", icon: "qq", description: "中文交流 · 一起实践" },
+  { name: "微信", icon: "wechat", description: "日常交流 · 社群连接" },
+];
+export const relayLogoGroups = [
+  [{ name: "OpenAI", icon: "openai" }, { name: "DeepSeek", icon: "deepseek" }, { name: "Google Gemini", icon: "googlegemini" }, { name: "Qwen", icon: "qwen" }],
+  [{ name: "Anthropic Claude", icon: "claude" }, { name: "xAI Grok", icon: "grok" }, { name: "Perplexity", icon: "perplexity" }, { name: "Meta", icon: "meta" }],
 ];
 export const technologies = [
   { category: "LANGUAGES", label: "编程语言", items: [["TypeScript", "typescript"], ["Python", "python"], ["Rust", "rust"]] },
@@ -38,9 +43,9 @@ export const technologies = [
   { category: "COLLABORATION", label: "合作伙伴", items: [["Claude Code", "claude"], ["Codex", "openai"], ["OpenCode", "opencode"]] },
 ];
 export const projects = [
-  { slug: "mind-workspace", name: "Mind Workspace", category: "AI 应用 / 知识工作台", description: "让散落的笔记与文档，成为可以对话的知识。一个从收集、检索到整理的个人工作空间。", tags: ["Next.js", "RAG", "PostgreSQL"], mark: "01 / KNOWLEDGE" },
-  { slug: "freeman-web", name: "FreeMan Web", category: "Web / 个人空间", description: "把作品、想法和连接，放进一个持续生长的个人网站。", tags: ["React", "TypeScript"], mark: "02 / PERSONAL" },
-  { slug: "tiny-saas", name: "Tiny SaaS", category: "SaaS / 工作流", description: "面向小团队的轻量任务工具，让日常协作少一点重复。", tags: ["Node.js", "PostgreSQL"], mark: "03 / WORKFLOW" },
+  { slug: "mind-workspace", name: "Mind Workspace", category: "AI 应用 / 知识工作台", description: "让散落的笔记与文档，成为可以对话的知识。一个从收集、检索到整理的个人工作空间。", tags: ["Next.js", "RAG", "PostgreSQL"], mark: "01 / KNOWLEDGE", artwork: "project-knowledge-transparent", icon: "nextdotjs", github: "" },
+  { slug: "freeman-web", name: "FreeMan Web", category: "Web / 个人空间", description: "把作品、想法和连接，放进一个持续生长的个人网站。", tags: ["React", "TypeScript"], mark: "02 / PERSONAL", artwork: "project-personal-transparent", icon: "react", github: "https://github.com/0317zhuo/FreeMan" },
+  { slug: "tiny-saas", name: "Tiny SaaS", category: "SaaS / 工作流", description: "面向小团队的轻量任务工具，让日常协作少一点重复。", tags: ["Node.js", "PostgreSQL"], mark: "03 / WORKFLOW", artwork: "project-workflow-transparent", icon: "nodedotjs", github: "" },
   { slug: "prompt-lab", name: "Prompt Lab", category: "AI 工具 / 创意实验", description: "收集、组织和比较提示词，让好用的方法可以再次使用。", tags: ["Python", "LLM API"], mark: "04 / EXPERIMENT" },
 ];
 export const projectEntries: Record<string, Entry> = Object.fromEntries(projects.map((project) => [project.slug, { name: `${project.name} 项目详情`, path: `${entries.projects.path}/${project.slug}`, available: false }]));
@@ -51,11 +56,21 @@ export const services = [
   { name: "AI 工具开发", description: "围绕具体问题，构建轻量实用工具。", icon: "python" },
 ];
 export const courses = [
-  { title: "AI 从理解到实践", description: "理解模型的边界，把 AI 用进真实的学习与工作。", audience: "AI 入门者 / 知识工作者", formats: ["直播", "文档"], category: "AI 知识培训" },
-  { title: "从零构建你的 Web 应用", description: "围绕一个小项目，串起界面、数据与发布的完整路径。", audience: "编程初学者 / 独立创作者", formats: ["录播", "文档"], category: "编程课程" },
-  { title: "下一步，怎么走？", description: "梳理技能、作品与目标，讨论可执行的学习和职业方向。", audience: "转型探索者 / 初入职场者", formats: ["一对一"], category: "职业咨询" },
+  { title: "AI基础使用", audience: "适合没有任何基础的小白", icon: "openai", iconName: "OpenAI" },
+  { title: "AI进阶使用", audience: "适合已具备一定基础或已学完第一个课程的朋友", icon: "claude", iconName: "Claude" },
+  { title: "AI实战训练", audience: "适合有一定基础且掌握AI进阶的朋友", icon: "langchain", iconName: "LangChain" },
+  { title: "编程基础学习", audience: "适合想学编程但无任何基础的小白", icon: "python", iconName: "Python" },
+  { title: "编程进阶学习", audience: "适合想做大型项目且有一定编程基础的朋友", icon: "typescript", iconName: "TypeScript" },
+  { title: "项目实战教学", audience: "适合有编程基础且想做项目积攒经验的朋友", icon: "nextdotjs", iconName: "Next.js" },
 ];
-export const contributors = ["蓝点", "像素猫", "小机器人", "夜行鸮", "代码狐", "慢慢构建", "月兔", "北极熊", "蘑菇同学", "企鹅君", "阿柴", "小行星", "青蛙酱", "浣熊", "飞鸟", "星际访客"].map((name, index) => ({ name, avatar: `/images/avatar-${String(index + 1).padStart(2, "0")}.webp` }));
+export const contributors: { name: string; avatar?: string }[] = [
+  { name: "zhuo", avatar: "/images/avatar-0317zhuo.jpg" },
+  { name: "Claude Code", avatar: "/icons/claude-app.jpg" },
+  { name: "Codex（ChatGPT）", avatar: "/icons/codex-app.jpg" },
+  { name: "Gemini", avatar: "/icons/gemini-app.jpg" },
+  { name: "DeepSeek", avatar: "/icons/deepseek-app.jpg" },
+  { name: "期待您成为下一个贡献者" },
+];
 
 // 全部为静态示例；price 为原币种单价，rate 为每单位原币换算 CNY。
 export const valuation = { date: "2026-09-30", rates: { USD: 7.1, HKD: 0.91, CNY: 1 } };
