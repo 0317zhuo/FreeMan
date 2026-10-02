@@ -1,69 +1,47 @@
 import Image from "next/image";
+import { communities, contributors, courses, navigation, projectEntries, projects, services, socialPlatforms, technologies } from "./landing-data";
+import { ConnectionAction, EntryAction, FeedbackProvider, Header } from "./landing-interactions";
+import Investment from "./investment";
+import SocialLinks from "./social-links";
+import styles from "./page.module.css";
+
+function SectionHeading({ number, label, title, description, sample }: { number: string; label: string; title: string; description: string; sample?: string }) {
+  return <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>[{number}] {label}</p><h2>{title}</h2></div><div className={styles.headingDescription}><p>{description}</p>{sample && <span className={styles.sampleBadge}>{sample}</span>}</div></div>;
+}
+function Tags({ items }: { items: string[] }) { return <div className={styles.tags}>{items.map((item) => <span key={item}>{item}</span>)}</div>; }
+function Artwork({ name, className = "", preload = false }: { name: string; className?: string; preload?: boolean }) { return <Image src={`/images/${name}.webp`} alt="" width={name === "landscape" ? 1800 : 1200} height={name === "landscape" ? 600 : name === "learning" ? 1800 : name === "hero" ? 1200 : 800} className={className} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 800px" preload={preload} />; }
 
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+  const featured = projects[0];
+  return <FeedbackProvider><div className={styles.landing}>
+    <a className={styles.skipLink} href="#main-content">跳转到主要内容</a>
+    <Header />
+    <main className={styles.shell} id="main-content">
+      <section className={styles.hero} id="about" aria-labelledby="hero-title">
+        <div className={styles.heroCopy}>
+          <h1 id="hero-title">在AI时代<br />追求自由的年轻人</h1>
+          <p className={styles.description}>用代码把想法落地，用 AI 拓展可能。<br />分享作品、学习与投资观察，连接同样热爱创造的人。<br />让好奇心有去处，让想法有回响。</p>
+          <div className={styles.heroActions}><a className={styles.primaryButton} href="#projects">探索我的作品 <span aria-hidden="true">↓</span></a><a className={styles.secondaryButton} href="#possibilities">发现更多可能 <span aria-hidden="true">↗</span></a></div>
+          <SocialLinks />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+        <aside className={styles.terminalCard} aria-label="个人空间终端概念视觉">
+          <div className={styles.terminalTop}><span>~/freeman / personal-space</span><span aria-hidden="true">− □ ×</span></div>
+          <div className={styles.terminalArt}><Artwork name="hero" preload /><pre className={styles.asciiMark} aria-hidden="true">{"█▀▀ █▀█ █▀▀ █▀▀ █▀▄▀█ ▄▀█ █▄ █\n█▀  █▀▄ ██▄ ██▄ █ ▀ █ █▀█ █ ▀█"}</pre><span className={styles.artCoordinates}>IDEA_001 / UNLIMITED POSSIBILITIES</span></div>
+          <div className={styles.terminalBottom}><p><span>[+]</span> curiosity always on</p><p><span>[+]</span> build something meaningful</p><div className={styles.terminalPrompt}>│ &gt; hello, world<span className={styles.cursor}>_</span></div><p className={styles.terminalHints}>持续探索 <span>持续构建 ↗</span></p></div>
+        </aside>
+      </section>
+      <div className={styles.exploreStrip} id="possibilities"><p>一个空间，<br /><strong>不止一种可能。</strong></p><div>{[["作品与探索", "projects", "01"], ["投资与观察", "investment", "02"], ["合作与成长", "collaboration", "03"], ["学习与连接", "courses", "04"]].map(([label, id, index]) => <a href={`#${id}`} key={id}><span>{index}</span>{label}<span aria-hidden="true">↘</span></a>)}</div></div>
+      <section className={`${styles.section} ${styles.stackSection}`} id="stack" aria-labelledby="stack-title"><div className={styles.stackHeading}><h2 id="stack-title">[01] 我的技术栈</h2><p className={styles.note}>示例技术组合 · 围绕问题选择工具</p></div><div className={styles.techGrid}>{technologies.map((group) => <div className={styles.techGroup} key={group.category}><p className={styles.smallLabel}>{group.category}<span>{group.label}</span></p>{group.items.map(([name, icon]) => <div className={styles.techItem} key={name}><Image src={`/icons/${icon}.svg`} width={24} height={24} alt="" /><span>{name}</span></div>)}</div>)}</div></section>
+      <section className={styles.section} id="projects" aria-label="项目"><SectionHeading number="02" label="SELECTED WORK" title="一些想法，已经有了形状。" description="从个人工具到产品实验，在不同的问题里，寻找简单、好用的答案。" sample="示例作品 / 概念展示" />
+        <div className={styles.projectGrid}><article className={styles.featuredProject}><div className={styles.projectArtwork}><Artwork name="projects" /><span className={styles.visualLabel}>CONCEPT VISUAL / 001</span></div><div className={styles.featuredProjectCopy}><p className={styles.smallLabel}>{featured.category}</p><h3>{featured.name}</h3><p>{featured.description}</p><Tags items={featured.tags} /><EntryAction entry={projectEntries[featured.slug]} className={styles.textButton}>探索项目 <span aria-hidden="true">↗</span></EntryAction></div></article><div className={styles.projectList}>{projects.slice(1).map((project, index) => <article className={styles.projectItem} key={project.slug}>{index !== 1 && <Artwork name={index === 0 ? "network" : "projects"} className={styles.cornerArt} />}<p className={styles.smallLabel}>{project.mark}</p><h3>{project.name}</h3><p className={styles.projectCategory}>{project.category}</p><p>{project.description}</p><div className={styles.projectItemBottom}><Tags items={project.tags} /><EntryAction entry={projectEntries[project.slug]} className={styles.arrowButton}><span className={styles.srOnly}>查看 {project.name} 项目详情</span><span aria-hidden="true">↗</span></EntryAction></div></article>)}</div></div>
+      </section>
+      <section className={styles.section} id="investment" aria-label="投资"><SectionHeading number="03" label="CAPITAL & CURIOSITY" title="观察世界，也记录选择。" description="把资产分布放在一张清晰的地图上，理解不同市场，保持独立思考。" sample="示例数据 · 非本人真实资产" /><Investment /></section>
+      <section className={styles.section} id="collaboration" aria-label="开发合作与雇佣"><SectionHeading number="04" label="LET’S BUILD SOMETHING" title="下一件有趣的事，一起做。" description="一个具体的产品想法，或一个正在寻找伙伴的团队，都可以成为新的起点。" /><div className={styles.collaborationGrid}><div className={styles.development}><p className={styles.smallLabel}>01 / PROJECT COLLABORATION</p><h3>你有想法，我来构建。</h3><p>从一个清晰的问题出发，把需要的功能做成可用的产品。</p><div className={styles.services}>{services.map((service) => <div key={service.name}><Image src={`/icons/${service.icon}.svg`} width={23} height={23} alt="" /><div><h4>{service.name}</h4><p>{service.description}</p></div></div>)}</div><EntryAction entry="development" className={styles.primaryButton}>了解开发业务 <span aria-hidden="true">↗</span></EntryAction></div><div className={styles.hire}><Artwork name="projects" className={styles.hireArt} /><div className={styles.hireCopy}><p className={styles.smallLabel}>02 / JOIN YOUR TEAM</p><h3>也愿成为，<br />团队的一份子。</h3><p>连接产品与工程，让探索走向交付。</p><ul className={styles.valueList}><li><span>[+]</span> 产品实现：把需求变成具体体验</li><li><span>[+]</span> AI 落地：找到模型与场景的结合点</li><li><span>[+]</span> 工程交付：关注可维护与可迭代</li><li><span>[+]</span> 开放协作：沟通问题，共同推进</li></ul><EntryAction entry="hire" className={styles.secondaryButton}>了解雇佣合作 <span aria-hidden="true">↗</span></EntryAction></div></div></div></section>
+      <section className={styles.section} id="courses" aria-label="课程与咨询"><SectionHeading number="05" label="LEARN, THEN MAKE" title="学一点，做一点，再走远一点。" description="把复杂知识拆成可以实践的小步，也为下一次选择留出思考的空间。" sample="示例课程与咨询方向" /><div className={styles.courseGrid}><div className={styles.learningPanel}><Artwork name="learning" /><div><p className={styles.smallLabel}>KNOWLEDGE → PRACTICE</p><h3>让学习，<br />发生在实践里。</h3><p>直播 / 录播 / 文档 / 咨询</p></div></div><div className={styles.courseList}>{courses.map((course, index) => <article key={course.title}><p className={styles.smallLabel}>0{index + 1} / {course.category}</p><div className={styles.courseTitle}><h3>{course.title}</h3><EntryAction entry="courses" className={styles.arrowButton}><span className={styles.srOnly}>了解{course.title}</span><span aria-hidden="true">↗</span></EntryAction></div><p>{course.description}</p><div className={styles.courseMeta}><span>适合：{course.audience}</span><Tags items={course.formats} /></div></article>)}</div></div></section>
+      <section className={`${styles.section} ${styles.relaySection}`} id="relay" aria-labelledby="relay-title"><div className={styles.relayCopy}><p className={styles.eyebrow}>[06] AI RELAY / <span className={styles.statusBadge}>待开发</span></p><h2 id="relay-title">少一点连接成本，<br />多一点创造空间。</h2><p>设想中的 AI 中转站，让应用与模型之间的连接更简单。<br />面向个人实验、原型开发与 AI 工具构建。</p><Tags items={["拟提供 / 统一接口", "多模型连接", "用量记录"]} /><EntryAction entry="relay" className={styles.secondaryButton}>了解 AI 中转站 <span aria-hidden="true">↗</span></EntryAction><p className={styles.note}>规划中的服务，暂未开放模型调用。</p></div><div className={styles.relayVisual}><Artwork name="network" /><div className={styles.relayTerminal}><p>$ connect --ideas</p><p>your_app → relay → models</p><p><span>[ ]</span> status: planned / 待开发</p></div></div></section>
+      <section className={styles.section} id="community" aria-label="加入社区"><div className={styles.communityBanner}><Artwork name="network" className={styles.communityArt} /><div><p className={styles.eyebrow}>[07] BETTER TOGETHER</p><h2>独自探索，<br />也和同路人相遇。</h2><p>一个关于 AI 实践与开发交流的空间。<br />分享新发现，讨论卡住的问题，找伙伴把小想法做出来。</p><EntryAction entry="community" className={styles.textButton}>了解社区 <span aria-hidden="true">↗</span></EntryAction></div></div><div className={styles.communityLinks}>{communities.map((community) => <article key={community.name}><div className={styles.communityName}><Image src={`/icons/${community.icon}.svg`} width={30} height={30} alt="" /><h3>{community.name}</h3></div><p>{community.description}</p><ConnectionAction connection={community} community className={styles.secondaryButton}>加入 {community.name} <span aria-hidden="true">↗</span></ConnectionAction><small>邀请链接待配置</small></article>)}</div></section>
+      <section className={styles.contributorsSection} id="contributors" aria-label="项目贡献者"><SectionHeading number="08" label="MADE WITH PEOPLE" title="好的创造，来自每一份参与。" description="代码、建议、设计与分享，每一种贡献，都让这个空间变得更好。" sample="16 位示例贡献者 / 原创插画头像" /><div className={styles.contributorGrid}>{contributors.map((person) => <div className={styles.contributor} key={person.name}><Image src={person.avatar} width={64} height={64} alt="" /><span>{person.name}</span></div>)}</div></section>
+    </main>
+    <footer className={`${styles.shell} ${styles.footer}`}><div className={styles.footerLandscape}><div><p className={styles.eyebrow}>KEEP EXPLORING / KEEP BUILDING</p><h2>自由，是不断创造的可能。</h2><a className={styles.textButton} href="#about">回到起点 <span aria-hidden="true">↑</span></a></div><Artwork name="landscape" /></div><div className={styles.footerGrid}><div className={styles.footerIntro}><a href="#about" className={styles.footerBrand}>freeman_</a><p>一个关于探索、记录与创造的个人空间。</p><span className={styles.smallLabel}>BUILD A LIFE OF YOUR OWN.</span></div><div className={styles.footerColumn}><h3>探索</h3><a href="#about">关于我</a><EntryAction entry="projects">项目</EntryAction><EntryAction entry="investment">投资</EntryAction><EntryAction entry="relay">AI 中转站 · 待开发</EntryAction></div><div className={styles.footerColumn}><h3>一起创造</h3>{navigation.filter((item) => item.entry && item.entry !== "relay").map((item) => <EntryAction key={item.label} entry={item.entry!}>{item.label}</EntryAction>)}</div><div className={styles.footerColumn}><h3>保持连接</h3><div className={styles.footerSocial}>{socialPlatforms.map((platform) => <ConnectionAction key={platform.name} connection={platform} className={styles.socialButton} />)}</div><div className={styles.footerCommunity}>{communities.map((community) => <ConnectionAction key={community.name} connection={community} community />)}</div></div></div><div className={styles.copyright}><span>© {new Date().getFullYear()} FreeMan</span><span>保持好奇，持续构建。 <span className={styles.titleDot}>[+]</span></span></div></footer>
+  </div></FeedbackProvider>;
 }
