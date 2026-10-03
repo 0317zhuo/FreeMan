@@ -1,25 +1,14 @@
 import { communities, socialPlatforms } from "@/app/_data/landing";
 import { navigation } from "@/app/_data/entries";
 import { ConnectionAction, EntryAction } from "./interactions";
-import GitHubActivity from "./github-activity";
 import styles from "./landing.module.css";
 
-export default function SiteFooter() {
+export default function SiteFooter({ homeHref = "#about" }: { homeHref?: string }) {
   return (
     <footer className={`${styles.shell} ${styles.footer}`}>
-      <div className={styles.footerLandscape}>
-        <div>
-          <p className={styles.eyebrow}>KEEP EXPLORING / KEEP BUILDING</p>
-          <h2>自由，是不断创造的可能。</h2>
-          <a className={styles.textButton} href="#about">
-            回到起点 <span aria-hidden="true">↑</span>
-          </a>
-        </div>
-        <GitHubActivity />
-      </div>
       <div className={styles.footerGrid}>
         <div className={styles.footerIntro}>
-          <a href="#about" className={styles.footerBrand}>
+          <a href={homeHref} className={styles.footerBrand}>
             freeman_
           </a>
           <p>一个关于探索、记录与创造的个人空间。</p>
@@ -27,7 +16,7 @@ export default function SiteFooter() {
         </div>
         <div className={styles.footerColumn}>
           <h3>探索</h3>
-          <a href="#about">关于我</a>
+          <a href={homeHref}>关于我</a>
           <EntryAction entry="projects">项目</EntryAction>
           <EntryAction entry="investment">投资</EntryAction>
           <EntryAction entry="relay">AI 中转站 · 待开发</EntryAction>

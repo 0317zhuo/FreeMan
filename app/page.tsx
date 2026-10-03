@@ -11,6 +11,7 @@ import CoursesSection from "./_components/landing/courses-section";
 import RelaySection from "./_components/landing/relay-section";
 import CommunitySection from "./_components/landing/community-section";
 import ContributorsSection from "./_components/landing/contributors-section";
+import ClosingSection from "./_components/landing/closing-section";
 import SiteFooter from "./_components/landing/site-footer";
 import DeferredTextures from "./_components/landing/deferred-textures";
 import { FeedbackProvider, Header } from "./_components/landing/interactions";
@@ -83,6 +84,7 @@ export default function Home() {
           <RelaySection />
           <CommunitySection />
           <ContributorsSection />
+          <ClosingSection />
         </main>
         <SiteFooter />
         <DeferredTextures />

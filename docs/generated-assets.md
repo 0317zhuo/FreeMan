@@ -186,3 +186,7 @@ Use case: stylized-concept. Asset type: a single original grayscale texture for 
 - 分享图复用现有 `hero.webp`（1200×1200），没有生成新视觉；正式域名确定后启用绝对地址。
 
 原文件保留。首页使用优化副本，CSS 纹理与 Canvas 采样素材按视口延迟加载，所有素材地址通过 `NEXT_PUBLIC_ASSET_BASE_URL` 切换。
+
+## 开发业务页素材复用（2026-10-03）
+
+`/development` 复用已有原创 `projects.webp`（1200×675）作为首屏构建概念插画，复用三张 `project-*-dot-source-static.webp` 作为项目示例静态视觉。未重新生图或加工原图，均通过 `assetUrl()` 加载；首屏插画预加载，项目图片延迟加载。图标复用现有 SVG，许可不变。

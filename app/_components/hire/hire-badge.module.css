@@ -1,0 +1,14 @@
+.scene { width: min(100%, 300px); margin-inline: auto; perspective: 900px; border-radius: 16px; }
+.badge { position: relative; padding: 34px 18px 22px; border: 1px solid #e1e1db; border-radius: 16px; background: linear-gradient(180deg, #f7f7f2, #fdfdfb); box-shadow: 0 12px 26px #201f1d05; color: var(--foreground); transform-style: preserve-3d; transform: rotateX(var(--badge-pitch, 0deg)) rotateY(var(--badge-yaw, 0deg)); transition: transform 220ms ease-out; }
+.slot { position: absolute; top: 10px; left: calc(50% - 20px); width: 40px; height: 8px; border: 1px solid #e5e5de; border-radius: 6px; background: var(--background); box-shadow: inset 0 1px 2px #201f1d08; }
+.name { padding: 8px 10px; border-radius: 7px; background: var(--foreground); color: var(--background); font-size: 17px; line-height: 1.5; }
+.avatarFrame { display: flex; justify-content: center; align-items: center; width: 100px; height: 100px; margin-top: 20px; border: 1px solid #e1e1db; border-radius: 8px; background: #fff; }
+.avatarFrame img { display: block; width: 84px; height: 84px; object-fit: contain; }
+.badge .direction { margin-top: 24px; font-size: 17px; font-weight: 700; }
+.role { display: block; animation: role-enter 280ms ease-out; }
+@keyframes role-enter { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+.badge .motto { margin-top: 20px; font-size: 14px; color: var(--muted); }
+.footer { margin-top: 38px; padding-top: 22px; border-top: 1px dashed #d7d7cf; text-align: center; font-size: 14px; }
+.name, .avatarFrame { transform: translateZ(12px); }
+.direction, .motto { transform: translateZ(8px); }
+@media (prefers-reduced-motion: reduce) { .badge { transform: none; transition: none; } .role { animation: none; } .name, .avatarFrame, .direction, .motto { transform: none; } }

@@ -3,8 +3,9 @@
 .skipLink { position: fixed; top: 12px; left: 12px; z-index: 100; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); background: var(--surface); }
 .skipLink:focus { width: auto; height: auto; padding: 12px; clip-path: none; }
 .srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.header { border-block: 1px solid var(--line); position: relative; z-index: 5; }
-.headerInner { min-height: 80px; padding-inline: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.header { position: sticky; top: 0; z-index: 5; background: var(--surface); transition: transform 180ms ease; }
+.header[data-hidden="true"] { transform: translateY(-100%); }
+.headerInner { min-height: 80px; padding-inline: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-block: 1px solid var(--line); }
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand > span { margin-left: -10px; color: var(--accent); }
 .desktopNav { display: flex; align-items: center; gap: 30px; }
@@ -66,7 +67,7 @@
 .exploreStrip a:last-child { border-right: 0; }
 .exploreStrip a > span:first-child { width: 100%; color: var(--muted); }
 .exploreStrip a:hover { background: var(--soft); }
-.section { padding: 76px 40px; border-bottom: 1px solid var(--line); scroll-margin-top: 24px; }
+.section { padding: 76px 40px; border-bottom: 1px solid var(--line); scroll-margin-top: 96px; }
 .sectionHeading { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; margin-bottom: 36px; align-items: end; }
 #collaboration .sectionHeading { align-items: start; }
 .sectionHeading h2, .stackHeading h2, .relayCopy h2 { font-weight: 600; line-height: 1.55; letter-spacing: -.8px; }
@@ -110,7 +111,7 @@
 .projectLink small { font-size: 14px; color: var(--muted); }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .tags > span { padding: 4px 7px; border: 1px solid var(--line); background: #fdfcfc99; }
-.assetSection { position: relative; min-height: 360px; display: flex; flex-direction: column; border-bottom: 1px solid var(--line); scroll-margin-top: 24px; overflow: hidden; background: radial-gradient(ellipse at 50% 0%, #315bfb0b, transparent 60%); }
+.assetSection { position: relative; min-height: 360px; display: flex; flex-direction: column; border-bottom: 1px solid var(--line); scroll-margin-top: 96px; overflow: hidden; background: radial-gradient(ellipse at 50% 0%, #315bfb0b, transparent 60%); }
 .assetDisplay { position: relative; display: grid; place-items: center; flex: 1; min-height: 320px; padding: 40px 16px 0; }
 .assetNumber { grid-area: 1 / 1; color: #201d1d10; font-size: clamp(44px, 10.5vw, 154px); font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; user-select: none; transition: transform 700ms cubic-bezier(.2,.7,.2,1); }
 .assetNumber > span { display: inline-block; animation: assetUpdate 450ms ease-out; }
@@ -205,10 +206,10 @@
 .contributorInviteMark { display: grid; width: 58px; height: 58px; place-items: center; border: 1px dashed var(--line); border-radius: 50%; color: var(--muted); font-size: 28px; line-height: 1; }
 .contributor:hover img { transform: translateY(-3px); }
 .contributor span { text-align: center; overflow-wrap: anywhere; }
-.footerLandscape { padding-bottom: 48px; text-align: center; border-bottom: 1px solid var(--line); }
-.footerLandscape > div { padding: 62px 24px 0; }
-.footerLandscape .eyebrow { color: var(--foreground); margin-bottom: 14px; }
-.footerLandscape h2 { font-weight: 600; margin-bottom: 10px; }
+.closingSection { padding-bottom: 48px; text-align: center; border-bottom: 1px solid var(--line); }
+.closingSection > div { padding: 62px 24px 0; }
+.closingSection .eyebrow { color: var(--foreground); margin-bottom: 14px; }
+.closingSection h2 { font-weight: 600; margin-bottom: 10px; }
 .githubActivity { width: min(940px, calc(100% - 96px)); margin: 32px auto 0; text-align: left; }
 .activityHeading { margin-bottom: 16px; font-size: 12px; line-height: 1.5; }
 .activityScroll { overflow-x: auto; padding-bottom: 6px; }
@@ -392,8 +393,8 @@
   .contributorGrid { grid-template-columns: repeat(4, 1fr); }
   .contributor { min-height: 124px; padding: 20px 7px; gap: 12px; }
   .contributor img { width: 45px; height: 45px; }
-  .footerLandscape { padding-bottom: 36px; }
-  .footerLandscape > div { padding: 48px 22px 0; }
+  .closingSection { padding-bottom: 36px; }
+  .closingSection > div { padding: 48px 22px 0; }
   .githubActivity { width: calc(100% - 44px); margin-top: 28px; }
   .footerGrid { grid-template-columns: 1fr 1fr; }
   .footerGrid > div { padding: 26px 22px; }
@@ -446,9 +447,10 @@
 .landing .communityHeading .eyebrow { color: var(--foreground); }
 .landing .communityHeading h2 { color: var(--muted); font-size: 18px; font-weight: 500; line-height: 1.7; letter-spacing: 0; }
 .landing .description, .landing .headingDescription > p, .landing .projectDescription, .landing .development > p:not(:first-child), .landing .hireCopy > p:not(:first-child), .landing .communityCopy > p, .landing .communityLinks article > p, .landing .footerIntro > p, .landing .relayCopy > p:not(:first-child), .landing .hireSteps li, .landing .services p, .landing .exploreStrip > p, .landing .techItem { font-size: 16px; line-height: 1.5; }
-.landing .eyebrow, .landing .sectionHeading h2, .landing .stackHeading h2, .landing .relayCopy h2, .landing .footerLandscape h2, .landing .collaborationGrid h3, .landing .projectCopy h3, .landing .communityHeading h2, .landing .communityName h3 { font-size: 16px; font-weight: 700; line-height: 1.5; letter-spacing: 0; }
+.landing .eyebrow, .landing .sectionHeading h2, .landing .stackHeading h2, .landing .relayCopy h2, .landing .closingSection h2, .landing .collaborationGrid h3, .landing .projectCopy h3, .landing .communityHeading h2, .landing .communityName h3 { font-size: 16px; font-weight: 700; line-height: 1.5; letter-spacing: 0; }
 .landing .primaryButton, .landing .secondaryButton, .landing .textButton, .landing .socialButton, .landing .menuToggle { font-size: 16px; font-weight: 500; line-height: 2; letter-spacing: 0; }
-.landing .navLink { color: var(--foreground); font-size: 14px; font-weight: 400; line-height: 1.5; letter-spacing: 0; }
+.landing .navLink { color: #424245; font-size: 16px; font-weight: 400; line-height: 1.5; letter-spacing: 0; }
+.landing .navLink[aria-current="page"] { color: var(--accent); }
 .landing .smallLabel, .landing .note, .landing .sampleBadge, .landing .navBadge, .landing .terminalTop, .landing .terminalBottom > p, .landing .exploreStrip a > span:first-child, .landing .tags > span, .landing .projectCategory, .landing .statusBadge, .landing .communityLinks small, .landing .contributor span, .landing .footerColumn > a, .landing .footerColumn > button, .landing .footerSocial .socialButton, .landing .footerCommunity button, .landing .footerCommunity a, .landing .copyright, .landing .noticeRegion p { font-size: 14px; line-height: 2; letter-spacing: 0; }
 .landing .terminalPrompt { font-size: 16px; line-height: 1.5; }
 .landing .footerColumn h3 { font-size: 16px; font-weight: 700; line-height: 1.5; }

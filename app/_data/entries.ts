@@ -1,7 +1,7 @@
 export type Entry = { name: string; path: string; available: boolean };
 export const entries = {
-  development: { name: "开发业务", path: "/development", available: false },
-  hire: { name: "雇佣介绍", path: "/hire", available: false },
+  development: { name: "开发业务", path: "/development", available: true },
+  hire: { name: "雇佣介绍", path: "/hire", available: true },
   courses: { name: "课程", path: "/courses", available: false },
   relay: { name: "AI 中转站", path: "/ai-relay", available: false },
   community: { name: "社区介绍", path: "/community", available: false },
