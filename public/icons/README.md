@@ -38,3 +38,7 @@
 | `codex-app.jpg` | ChatGPT · OpenAI OpCo, LLC（用于 Codex） | [App Store](https://apps.apple.com/us/app/chatgpt/id6448311069) |
 | `gemini-app.jpg` | Google Gemini · Google | [App Store](https://apps.apple.com/us/app/google-gemini/id6477489729) |
 | `deepseek-app.jpg` | DeepSeek - AI Assistant · 杭州深度求索人工智能基础技术研究有限公司 | [App Store](https://apps.apple.com/us/app/deepseek-ai-assistant/id6737597349) |
+
+## 静态导出头像优化副本
+
+`claude-app-128.webp`、`codex-app-128.webp`、`gemini-app-128.webp`、`deepseek-app-128.webp` 分别由同目录对应的 `*-app.jpg` 缩小为 128×128 并转换为 WebP，用于 64px 显示及高像素密度屏幕。来源与许可沿用上方原文件说明，原文件保留。

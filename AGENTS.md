@@ -12,19 +12,50 @@ FreeMan 是个人品牌网站，面向个人展示、项目分享、开发合作
 
 - Next.js 16 App Router、React 19、TypeScript；使用 pnpm 管理依赖。
 - Tailwind CSS 4 已配置；当前页面的具体样式使用 CSS Modules。
-- `app/page.tsx`：十个区域的完整落地页与页脚，默认服务端组件。
-- `app/page.module.css`：落地页布局、响应式样式与轻量动效。
-- `app/social-links.tsx`：Hero 社交入口的服务端组合。
-- `app/project-particle-card.tsx`：从原创透明形体采样规则 Canvas 点阵，处理鼠标位置驱动的立体投影、键盘焦点与动效生命周期。
-- `app/landing-data.ts`：导航与未来页面入口、社交/社区资料、技术栈、示例作品、课程、贡献者及持仓/汇率/计算函数。
-- `app/landing-interactions.tsx`：客户端导航菜单、入口按钮、社交/社区按钮与非模态状态提示；支持 Escape 和焦点恢复。
-- `app/investment.tsx`：总资产模拟展示，以约 15 万元为基准持续小幅随机变化，不接入真实资产。
+- `app/page.tsx`：首页区块组合、首页 metadata 与 WebSite 结构化数据，默认服务端组件。
+- `app/_components/landing/`：Hero、技术栈、项目、合作、课程、社区、贡献者与页脚区块；`landing.module.css` 保存共用布局、响应式样式与动效。
+- `app/_components/landing/social-links.tsx`：Hero 社交入口的服务端组合。
+- `app/_components/landing/project-particle-card.tsx`、`hero-dot-scene.tsx`：采样原创素材绘制 Canvas；素材按可见性与减少动态效果偏好加载，失败时保留静态回退。
+- `app/_components/landing/interactions.tsx`：客户端导航、入口、连接按钮与状态提示；支持 Escape 和焦点恢复。
+- `app/_components/landing/investment.tsx`：总资产模拟展示，不接入真实资产。
+- `app/_components/landing/deferred-textures.tsx`：接近视口时加载合作与课程纹理。
+- `app/_data/entries.ts`：导航、未来页面入口与连接类型；`landing.ts`：服务端首页内容；`project-entries.ts` 与 `portfolio.ts`：保留的详情入口、示例持仓与计算函数，不进入首页客户端。
+- `lib/assets.ts`：通过 `NEXT_PUBLIC_ASSET_BASE_URL` 统一素材地址；`lib/format.ts`：轻量金额格式化；`lib/site.ts`：站点描述与可选正式域名。
+- `app/not-found.tsx`、`error.tsx`、`global-error.tsx`：中文 404 与异常恢复页面，共用 `app/_components/status-page.tsx`。
 - `app/globals.css`：全局颜色、等宽字体、基础样式与可访问性设置。
 - `app/layout.tsx`：根布局、页面元信息、语言和字体加载。
 - `public/`：本地静态资源；`public/icons/` 保存网上获取的图标及来源、许可说明；`public/images/` 保存原创生图 WebP 素材与 16 张示例插画头像。
-- `docs/generated-assets.md`：生图方式、提示词及素材用途；`docs/verification/`：五种屏宽整页截图与验收记录。
+- `docs/generated-assets.md`：生图方式、提示词及素材用途；`docs/static-export-verification.md`：静态导出、素材配置、五种屏宽与交互验收记录及验证边界。
 - `DESIGN.md`：视觉系统参考，包含色彩、字号、留白、组件与响应式规范。
 - 页面默认使用服务端组件，仅需要状态或浏览器 API 的局部组件添加 `"use client"`。
+
+## 后续 AI 开发的关键约束
+
+### 组件与数据边界
+
+- 新增首页区块放在 `app/_components/landing/`，由 `app/page.tsx` 组合；不要把完整区块、数据和交互重新堆回首页入口。只有被多个区块使用或确有独立维护价值的内容才继续提取，避免为简单文案建立通用组件体系。
+- `app/_data/landing.ts`、`project-entries.ts`、`portfolio.ts` 使用 `server-only`，客户端组件不得直接导入。通过服务端组合传入必要字段；不要为了一个按钮将完整项目列表、持仓或语言字典传给客户端。
+- `app/_data/entries.ts` 仅保留交互所需的轻量入口和类型。新增数据先判断属于服务端正文还是客户端状态，避免绕过现有边界另建混合数据文件。
+- 修改区块 `id`、CSS 自定义属性或素材字段时，同时检查导航锚点、`aria-labelledby`、延迟纹理与 Canvas 的引用，避免拆分后出现静默失效。
+
+### 素材、字体与动效
+
+- 新增图片、品牌图标、CSS 纹理和 Canvas 采样地址统一通过 `lib/assets.ts` 的 `assetUrl()`。参数使用 `/images/...` 或 `/icons/...` 这类 public 根路径，不包含 `public`，不在组件或 CSS 中硬编码对象存储域名。
+- `NEXT_PUBLIC_ASSET_BASE_URL` 留空表示本地素材，可配置带目录前缀的公开 HTTPS 地址。所有 `NEXT_PUBLIC_` 配置都会暴露给浏览器并在构建时固定；不得存放密钥或临时签名，修改后必须重新构建。新增配置同步说明到 `.env.example` 与 `docs/deployment.md`。
+- 素材变量仅控制业务素材，不用于重写 Next.js 的 JS、CSS、字体或 favicon 路径。当前 `images.unoptimized` 不生成运行时优化图片，使用 `next/image` 仍需合理设置尺寸、`sizes` 和加载优先级，并预先压缩资源。
+- 新素材优先输出满足展示尺寸的 WebP；复用原图进行缩放、压缩不需重新生图。新增装饰原图继续遵循下方生图规则，优化副本记录来源与用途，品牌图标沿用并记录原许可。
+- 保留 `next/font` 的 Geist Mono 与中文系统字体回退，不新增浏览器请求的远程字体 CSS。未经授权不替换为商业字体。
+- Canvas 的 `crossOrigin="anonymous"` 必须在设置 `src` 前赋值。远程图片能显示不等于允许读取像素；对象存储需配置 CORS，并分别验证图片显示和 Canvas 就绪状态。
+- 新增动效需在离屏、后台、减少动态效果或加载失败时保留可读静态内容；Effect 清理观察器、监听器、计时器和动画帧，异步完成后不得更新已卸载组件。
+
+### SEO、状态页与英文版本
+
+- 保留首页 H1「在 AI 时代追求自由的年轻人」与 metadata 标题「FreeMan — 个人空间」；除非用户明确要求，不随 SEO、拆分或翻译工作改写中文标题。
+- 正式域名目前尚未确定。不得写入虚构 canonical、sitemap 或社交分享绝对地址；`NEXT_PUBLIC_SITE_URL` 为空时保留首页 `noindex`。正式上线前执行 `docs/todo-domain-seo.md`，不要把构建成功误认为 SEO 已上线。
+- 结构化数据只描述已实现且有真实资料支持的内容，不把示例课程、模拟资产或待开发服务标记为真实商品、财务或履历。
+- 404 和异常页需说明发生了什么并给出有效恢复入口，不向访客展示堆栈或内部配置。`global-error.tsx` 自带 `html`、`body` 和基础样式，不依赖根布局。错误恢复 API 以安装版本文档为准；当前版本使用 `retry()`，不要套用旧版示例。
+- 仅有异步等待且需要用户反馈时添加 `loading.tsx`；不为同步静态内容制造加载状态。
+- 英文版本尚未实现，按 `docs/todo-internationalization.md` 推进。保留中文 `/` 的兼容性，复用区块与服务端字典，完整翻译交互和状态提示；同时处理 `html lang`、各语言 metadata 与 hreflang，不仅翻译正文。翻译不改变币种、真实链接或服务可用状态。
 
 ## 落地页信息架构
 
@@ -56,20 +87,20 @@ FreeMan 是个人品牌网站，面向个人展示、项目分享、开发合作
 
 上述六项首页导航已完成。「关于我」链接 Hero；其他导航保留未来独立页面的意图，目前使用语义化按钮与包含目标名称的「页面待开发」提示，不能统一改成首页滚动锚点。首页探索栏可使用真实区块锚点。
 
-未来路径、入口名称与可用状态集中在 `app/landing-data.ts` 的 `entries` 与 `projectEntries`；路由实际完成后才切换 `available`。目前不创建任何详情路由或详情替代弹窗。
+未来路径、入口名称与可用状态集中在 `app/_data/entries.ts` 的 `entries` 与 `app/_data/project-entries.ts` 的 `projectEntries`；路由实际完成后才切换 `available`。目前不创建任何详情路由或详情替代弹窗。
 
 ## 当前开发状态
 
 - 已完成 Hero、技术栈、项目、投资持仓、合并的开发/雇佣、课程/咨询、AI 中转站介绍、社区、贡献者、页脚十个区域的首页界面。项目区使用 `[02] 我的项目` 标题，右侧说明与左标题顶边对齐；当前展示 Mind Workspace、FreeMan Web、Tiny SaaS 三张等宽卡片，上方为原创层叠知识页、连续折带、阶梯模块的黑白规则 Canvas 点阵，灰度映射到深度，随鼠标位置轻微转动产生立体视差，键盘聚焦时提供固定倾角，移出后复位；姿态收敛、触控、减少动态效果、离屏或后台时停止绘制，并保留相同点阵的静态回退图。下方为描述与项目技术图标及 GitHub 入口；桌面卡片高度为 590px。FreeMan Web 已接入当前仓库地址，其余两个仓库链接待配置；项目图标、图片和仓库地址集中保存在 `projects` 数据中。
 - 延续暖白、近黑、全等宽字体与细分割线；穿插蓝黑点阵概念视觉、卡片角落纹理、学习插画、网络概念和页脚山景。素材实际由内置 imagegen 生成并保存为本地 WebP。
 - 贡献者宽屏为两行八列；中屏及常规手机四列，极窄手机两列；16 位均为明确标注的示例昵称与原创插画头像。
-- 项目后的投资区域已改为 `[03] 我的资产`：浅灰大数字背景，中央显示「目前总资产」与人民币单位。金额从 ¥151,286.42 起步，每 1.8 秒随机变化 ¥0.01–24.00，限制在初始值上下 ¥600 范围；明确标注模拟数据。减少动态效果时关闭更新动画，数字仍持续变化。原四市场示例数据保留在 `landing-data.ts`，首页不再展示持仓表。
+- 项目后的投资区域已改为 `[03] 我的资产`：浅灰大数字背景，中央显示「目前总资产」与人民币单位。金额从 ¥151,286.42 起步，每 1.8 秒随机变化 ¥0.01–24.00，限制在初始值上下 ¥600 范围；明确标注模拟数据。减少动态效果时关闭更新动画，数字仍持续变化。原四市场示例数据保留在 `app/_data/portfolio.ts`，首页不再展示持仓表。
 - 微信、QQ、Telegram、X 社交入口及 Discord、Telegram、QQ 社区入口全部完成；真实资料尚未配置。统一在 `socialPlatforms`、`communities` 中填写 `account` 或真实 `href`，不使用平台官网替代个人/群入口。
 - 移动菜单、所有业务/详情按钮、社交/社区状态反馈与键盘操作已实现；提示使用 `role="status"`，支持关闭按钮和 Escape，无业务详情弹窗。
 - 项目和课程为可替换示例，不代表已交付客户案例、开课安排或资历。真实作品地址、贡献者、个人资料和课程内容仍需提供。
 - 课程区域使用 `[05] 课程与学习` 标题与顶端对齐说明，六张卡片为 AI基础使用、AI进阶使用、AI实战训练、编程基础学习、编程进阶学习、项目实战教学。中央复用 OpenAI、Claude、LangChain、Python、TypeScript、Next.js 图标，统一为 76px；默认浅灰，悬停或键盘聚焦分别显示紫、橙、蓝、绿、玫红、青色原创颗粒渐变并展开入口。宽屏三列、中屏两列、手机单列，入口仍提示课程页面待开发。
 - 本轮只开发首页；详情页、支付/下单、登录、消息发送、课程交付、实时行情、AI 中转服务后端仍未实现，不自动部署。
-- 本轮已通过 lint 与生产构建，并在 1440、1024、768、390、320px 检查实际渲染。具体交互、截图和减少动态效果检查边界见 `docs/verification/README.md`。
+- 本轮已通过 lint 与生产构建，并在 1440、1024、768、390、320px 检查实际渲染。具体交互和减少动态效果检查边界见 `docs/static-export-verification.md`。
 
 ## 部署规划
 
@@ -77,6 +108,7 @@ FreeMan 是个人品牌网站，面向个人展示、项目分享、开发合作
 - 当前网站是以首页为主的静态内容站。Cloudflare Pages 阶段使用 Next.js 静态导出：`next.config.ts` 设置 `output: "export"` 和 `images: { unoptimized: true }`，构建命令为 `pnpm build`，发布目录为 `out`；通过 Git 仓库集成自动构建和部署。自有域名及其费用单独管理。
 - Cloudflare Pages 阶段不使用中国大陆节点；大陆访问速度和稳定性可能受跨境网络影响。ICP备案完成并切换至 EdgeOne Makers 后，配置自有域名及备案信息，再启用含中国大陆的全球加速区域。
 - 静态导出不支持需要 Next.js 服务端运行时的功能，例如动态 API、Server Actions、按请求 SSR 和默认图片优化。若后续加入此类功能，部署前重新评估架构，不要假设 Cloudflare Pages 静态方案仍可直接承载。
+- 素材路径和跨域配置见 `docs/deployment.md`；正式域名/SEO 与英文版本待办分别见 `docs/todo-domain-seo.md`、`docs/todo-internationalization.md`。
 - 平台套餐、免费额度和控制台选项会变化；执行部署时按平台当前文档复核，不在本指南中固定价格或额度。
 
 ## 视觉与参考网站
@@ -110,7 +142,10 @@ FreeMan 是个人品牌网站，面向个人展示、项目分享、开发合作
 - 仅修改当前需求涉及的代码，保持现有风格，不顺带重构或清理无关内容。
 - 多步骤任务给出简短计划与验证方式；完成后运行适合变更的检查。
 - 常用命令：`pnpm dev`、`pnpm lint`、`pnpm build`。
+- 涉及页面、配置或组件边界的改动，完成后运行 lint 与生产构建，并检查 `out` 中的实际 HTML 和资源；`pnpm dev` 能运行不代表静态导出可部署。用静态服务器预览 `out`，不要使用 `next start`，不要将未知路径统一回退首页掩盖 404。
+- 修改素材加载逻辑时验证本地与带目录前缀的远程配置，远程 Canvas 额外验证 CORS。临时测试环境不得覆盖用户的 `.env.local`；测试结束恢复默认构建，确认产物没有测试域名或地址。
 - 页面变更验证桌面与移动端布局、有效链接、键盘操作及必要的交互；新增动效检查减少动态效果设置。
+- 验收记录明确区分实际浏览器验证、模拟验证和未验证项，不把构建通过写成真实网络性能或 Core Web Vitals 已达标。结构变化同步更新本文件的职责说明；未完成事项留在 TODO，不写成已经实现。
 - 当前仓库未配置独立测试框架；不要为了低影响的视觉修改引入新的测试依赖。
 - 编写 Next.js 代码前，阅读安装版本的 `node_modules/next/dist/docs/` 中相关文档，不依赖旧版本经验。
 

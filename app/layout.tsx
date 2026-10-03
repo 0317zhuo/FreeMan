@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
+import { siteDescription, siteTitle, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -8,8 +9,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FreeMan — 个人空间",
-  description: "一个关于探索、记录与创造的个人空间。",
+  title: siteTitle,
+  description: siteDescription,
+  metadataBase: siteUrl,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

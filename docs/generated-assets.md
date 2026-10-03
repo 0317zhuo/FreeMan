@@ -174,3 +174,15 @@ Use case: background-extraction. Input image: edit target, a monochrome particle
 ```text
 Use case: stylized-concept. Asset type: a single original grayscale texture for minimalist website course cards, colored later in CSS. Create a square abstract soft luminous gradient with very fine analog film grain throughout, like elegant editorial risograph paper. Deep charcoal in upper left and bottom left corners, medium gray along right edge, a broad softly glowing light gray area across center and upper right. Organic blurred tonal transitions with understated fine speckled print texture. Uniformly flat raster surface with no objects, no recognizable forms, no lettering, no logo, no border, no shadow, no watermark, no UI. Strict grayscale, no color. No pure black blocks or sharp lines. This is a background behind website text and centered brand icons; calm even texture without any focal object.
 ```
+
+## 静态导出素材优化（2026-10-03）
+
+本轮复用现有原创生图与真实头像，使用 Sharp 缩放和编码，不新增装饰图或虚构头像。
+
+- `avatar-0317zhuo-128.webp`：真实头像的 128px 副本。
+- `public/icons/*-app-128.webp`：已有工具图标的 128px 副本，来源与许可见图标目录说明。五张优化副本合计由 124,869 字节降至 9,742 字节。
+- `collaboration-halftone-optimized.webp`：已有合作纹理缩放到 640px 并编码为 WebP，98,900 字节降至 57,692 字节。
+- `course-grain-optimized.webp`：已有颗粒纹理缩放到 480px 并编码为 WebP，63,218 字节降至 9,664 字节。
+- 分享图复用现有 `hero.webp`（1200×1200），没有生成新视觉；正式域名确定后启用绝对地址。
+
+原文件保留。首页使用优化副本，CSS 纹理与 Canvas 采样素材按视口延迟加载，所有素材地址通过 `NEXT_PUBLIC_ASSET_BASE_URL` 切换。
