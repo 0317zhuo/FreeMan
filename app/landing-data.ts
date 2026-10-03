@@ -43,9 +43,9 @@ export const technologies = [
   { category: "COLLABORATION", label: "合作伙伴", items: [["Claude Code", "claude"], ["Codex", "openai"], ["OpenCode", "opencode"]] },
 ];
 export const projects = [
-  { slug: "mind-workspace", name: "Mind Workspace", category: "AI 应用 / 知识工作台", description: "让散落的笔记与文档，成为可以对话的知识。一个从收集、检索到整理的个人工作空间。", tags: ["Next.js", "RAG", "PostgreSQL"], mark: "01 / KNOWLEDGE", artwork: "project-knowledge-transparent", icon: "nextdotjs", github: "" },
-  { slug: "freeman-web", name: "FreeMan Web", category: "Web / 个人空间", description: "把作品、想法和连接，放进一个持续生长的个人网站。", tags: ["React", "TypeScript"], mark: "02 / PERSONAL", artwork: "project-personal-transparent", icon: "react", github: "https://github.com/0317zhuo/FreeMan" },
-  { slug: "tiny-saas", name: "Tiny SaaS", category: "SaaS / 工作流", description: "面向小团队的轻量任务工具，让日常协作少一点重复。", tags: ["Node.js", "PostgreSQL"], mark: "03 / WORKFLOW", artwork: "project-workflow-transparent", icon: "nodedotjs", github: "" },
+  { slug: "mind-workspace", name: "Mind Workspace", category: "AI 应用 / 知识工作台", description: "让散落的笔记与文档，成为可以对话的知识。一个从收集、检索到整理的个人工作空间。", tags: ["Next.js", "RAG", "PostgreSQL"], mark: "01 / KNOWLEDGE", artwork: "project-knowledge-dot-source", icon: "nextdotjs", github: "" },
+  { slug: "freeman-web", name: "FreeMan Web", category: "Web / 个人空间", description: "把作品、想法和连接，放进一个持续生长的个人网站。", tags: ["React", "TypeScript"], mark: "02 / PERSONAL", artwork: "project-personal-dot-source", icon: "react", github: "https://github.com/0317zhuo/FreeMan" },
+  { slug: "tiny-saas", name: "Tiny SaaS", category: "SaaS / 工作流", description: "面向小团队的轻量任务工具，让日常协作少一点重复。", tags: ["Node.js", "PostgreSQL"], mark: "03 / WORKFLOW", artwork: "project-workflow-dot-source", icon: "nodedotjs", github: "" },
   { slug: "prompt-lab", name: "Prompt Lab", category: "AI 工具 / 创意实验", description: "收集、组织和比较提示词，让好用的方法可以再次使用。", tags: ["Python", "LLM API"], mark: "04 / EXPERIMENT" },
 ];
 export const projectEntries: Record<string, Entry> = Object.fromEntries(projects.map((project) => [project.slug, { name: `${project.name} 项目详情`, path: `${entries.projects.path}/${project.slug}`, available: false }]));

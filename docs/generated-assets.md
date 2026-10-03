@@ -1,5 +1,40 @@
 # 原创生图素材
 
+## 项目规则点阵与鼠标立体效果（2026-10-02）
+
+使用内置 `image_gen.imagegen` 独立生成三张原创透明形体，没有使用 CLI/API 回退或复制参考截图的具体元素。Sharp 仅做等比缩放和 WebP 压缩，保留透明通道。
+
+| 本地文件 | 形体与用途 |
+| --- | --- |
+| `public/images/project-knowledge-dot-source.webp` | 层叠知识页，Mind Workspace 点阵采样源 |
+| `public/images/project-personal-dot-source.webp` | 连续折带，FreeMan Web 点阵采样源 |
+| `public/images/project-workflow-dot-source.webp` | 阶梯模块，Tiny SaaS 点阵采样源 |
+
+三张素材均为 640×640。组件以横向 4px、纵向 3px 的固定网格采样，绘制略微纵向拉长的圆点。明暗映射到点的透明度、大小与深度；鼠标位置控制横纵轴旋转及透视投影，产生深度视差。该深度是由图片灰度推导的立体浮雕效果。移出平滑复位，键盘焦点提供固定轻微倾角，减少动态效果、触控、离屏或后台不播放跟随动画，姿态收敛后停止动画帧。
+
+`project-*-dot-source-static.webp` 是从实际组件的静态绘制指令导出的透明点阵回退图，尺寸为 440×440；脚本加载前或 Canvas 不可用时仍显示相同的点阵外观。源素材与回退图共约 148KB。旧粒子素材保留为历史资源。
+
+完整提示词如下：
+
+### knowledge
+
+```text
+Use case: stylized-concept. Asset type: original source sculpture for a regular dot-matrix project card, will be sampled into a grid of dots by code. A single clean sculptural object, isolated on genuinely transparent background with alpha. Square image, centered object occupying 72 percent of canvas, generous empty margins. Monochrome charcoal and medium gray, clear lighter front faces and darker side faces, precise edges, restrained minimal 3D editorial render. Broad smooth solid surfaces, NOT particles, NOT halftone: code will make the dot matrix. Orthographic three-quarter view, softly lit from upper left, no cast shadow, no ground, no text, no watermark, no logo, no scene. Original geometric design. Subject: five thin curved rectangular sheets floating in an orderly fan, each slightly offset vertically and horizontally, creating a sculptural layered knowledge archive. Clear air gaps between all five panels; rounded sheet corners, readable distinct layers. No book text, no sphere, no key.
+```
+
+### personal
+
+```text
+Use case: stylized-concept. Asset type: original source sculpture for a regular dot-matrix project card, will be sampled into a grid of dots by code. A single clean sculptural object, isolated on genuinely transparent background with alpha. Square image, centered object occupying 72 percent of canvas, generous empty margins. Monochrome charcoal and medium gray, clear lighter front faces and darker side faces, precise edges, restrained minimal 3D editorial render. Broad smooth solid surfaces, NOT particles, NOT halftone: code will make the dot matrix. Orthographic three-quarter view, softly lit from upper left, no cast shadow, no ground, no text, no watermark, no logo, no scene. Original geometric design. Subject: one wide continuous sculptural ribbon folded into an upright open angular loop with a twist and visible inside and outside surfaces. Architectural clean folds, open center and asymmetric folded tail, expressing a personal creative space. No sphere, no cube, no brand mark.
+```
+
+### workflow
+
+```text
+Use case: stylized-concept. Asset type: original source sculpture for a regular dot-matrix project card, will be sampled into a grid of dots by code. A single clean sculptural object, isolated on genuinely transparent background with alpha. Square image, centered object occupying 72 percent of canvas, generous empty margins. Monochrome charcoal and medium gray, clear lighter front faces and darker side faces, precise edges, restrained minimal 3D editorial render. Broad smooth solid surfaces, NOT particles, NOT halftone: code will make the dot matrix. Orthographic three-quarter view, softly lit from upper left, no cast shadow, no ground, no text, no watermark, no logo, no scene. Original geometric design. Subject: a compact zigzag chain of three broad rounded rectangular slab modules stepping upward diagonally, connected by short narrower bridges. Readable solid faces and side thickness, a simple abstract workflow assembly. No sphere, no cube, no arrows, no letters.
+```
+
+
 ## Hero 地球与电脑点阵（2026-10-02）
 
 参照用户录屏的黑白点阵语言，使用内置 `image_gen.imagegen`（imagegen 技能默认模式）分别生成地球纹理与复古电脑剪影；未裁切录屏或复制其标志。Sharp 仅进行缩放和 WebP 压缩。两张源素材合计约 20KB：
