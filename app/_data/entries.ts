@@ -4,7 +4,7 @@ export const entries = {
   hire: { name: "雇佣介绍", path: "/hire", available: true },
   courses: { name: "课程", path: "/courses", available: false },
   relay: { name: "AI 中转站", path: "/ai-relay", available: false },
-  community: { name: "社区介绍", path: "/community", available: false },
+  community: { name: "社区介绍", path: "/community", available: true },
   projects: { name: "项目", path: "/projects", available: false },
   investment: { name: "投资详情", path: "/investment", available: false },
 } satisfies Record<string, Entry>;
@@ -17,4 +17,4 @@ export const navigation: { label: string; entry?: EntryKey; href?: string; badge
   { label: "AI 中转站", entry: "relay", badge: "待开发" },
   { label: "加入社区", entry: "community" },
 ];
-export type Connection = { name: string; icon: string; href?: string; account?: string };
+export type Connection = { name: string; icon: string; href?: string; account?: string; qr?: { src: string; width: number; height: number } };

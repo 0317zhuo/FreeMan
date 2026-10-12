@@ -2,8 +2,10 @@ import "server-only";
 import type { Connection } from "./entries";
 
 export const socialPlatforms: Connection[] = [
-  { name: "微信", icon: "wechat" }, { name: "QQ", icon: "qq" },
-  { name: "Telegram", icon: "telegram" }, { name: "X", icon: "x" },
+  { name: "微信", icon: "wechat", qr: { src: "/images/qr-wechat.png", width: 760, height: 760 } },
+  { name: "QQ", icon: "qq", account: "1417378282", qr: { src: "/images/qr-qq.png", width: 1270, height: 1900 } },
+  { name: "Telegram", icon: "telegram", account: "@ZHUOCRYPTO", qr: { src: "/images/qr-telegram.png", width: 950, height: 1220 } },
+  { name: "X", icon: "x", href: "https://x.com/wangzhuo355194" },
 ];
 export const communities: (Connection & { description: string })[] = [
   { name: "Discord", icon: "discord", description: "主题讨论 · 项目协作" },

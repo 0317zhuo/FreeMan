@@ -87,7 +87,7 @@ export default function HireContent() {
             <h3>说说你的团队，和正在寻找的伙伴。</h3>
             <p>添加好友后，请说明「雇佣 / 入职机会」，简单介绍自己、团队与岗位方向。岗位说明或相关资料也可以一起分享。</p>
             <div className={styles.contactLinks}>{socialPlatforms.map((platform) => <ConnectionAction key={platform.name} connection={platform} className={shared.socialButton} />)}</div>
-            <p className={styles.contactNote}>{socialPlatforms.some((platform) => platform.href || platform.account) ? "请通过已配置的入口联系。目前暂不提供在线申请表单。" : "联系方式尚未配置，配置后可通过对应入口联系。目前暂不提供在线申请表单。"}</p>
+            <p className={styles.contactNote}>{socialPlatforms.some((platform) => platform.href || platform.account || platform.qr) ? "请通过已配置的入口联系。目前暂不提供在线申请表单。" : "联系方式尚未配置，配置后可通过对应入口联系。目前暂不提供在线申请表单。"}</p>
           </div>
           <div className={styles.checklist}>
             <h3>聊之前，可以准备这些</h3>

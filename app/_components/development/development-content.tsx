@@ -117,7 +117,7 @@ export default function DevelopmentContent() {
             <h3>说说你，和你想做的产品。</h3>
             <p>添加好友后，请说明「开发合作」，并介绍你的需求。下面的清单可以帮助我们更快了解彼此的想法。</p>
             <div className={styles.contactLinks}>{socialPlatforms.map((platform) => <ConnectionAction key={platform.name} connection={platform} className={shared.socialButton} />)}</div>
-            <p className={styles.contactNote}>{socialPlatforms.some((platform) => platform.href || platform.account) ? "请通过已配置的入口联系。目前暂不提供在线需求提交。" : "联系方式尚未配置，配置后可通过对应入口联系。目前暂不提供在线需求提交。"}</p>
+            <p className={styles.contactNote}>{socialPlatforms.some((platform) => platform.href || platform.account || platform.qr) ? "请通过已配置的入口联系。目前暂不提供在线需求提交。" : "联系方式尚未配置，配置后可通过对应入口联系。目前暂不提供在线需求提交。"}</p>
           </div>
           <div className={styles.checklist}>
             <h3>聊之前，可以准备这些</h3>

@@ -73,7 +73,7 @@ export default function HireBadge({ roles }: { roles: readonly string[] }) {
       <div className={styles.slot} aria-hidden="true" />
       <div className={styles.name}>FreeMan</div>
       <div className={styles.avatarFrame}>
-        <Image src={assetUrl("/images/avatar-0317zhuo-128.webp")} width={96} height={96} alt="FreeMan 的小猪头像" />
+        <Image src={assetUrl("/images/hire-avatar-pixel-256.webp")} width={96} height={96} alt="FreeMan 的黑白像素头像" />
       </div>
       <p className={styles.direction} aria-label="岗位意向"><span key={roleIndex} className={styles.role}>{roles[roleIndex]}</span></p>
       <p className={styles.motto}>保持好奇，持续构建。</p>

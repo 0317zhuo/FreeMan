@@ -7,12 +7,16 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState, ty
 import { entries, navigation, type Connection, type Entry, type EntryKey } from "@/app/_data/entries";
 import styles from "./landing.module.css";
 
-const FeedbackContext = createContext<(message: string) => void>(() => {});
+type QrCode = NonNullable<Connection["qr"]> & { name: string; account?: string };
+const FeedbackContext = createContext<{ show: (message: string) => void; showQr: (qr: QrCode) => void }>({ show: () => {}, showQr: () => {} });
 
 export function FeedbackProvider({ children }: { children: ReactNode }) {
   const [notice, setNotice] = useState<{ text: string; id: number } | null>(null);
+  const [qr, setQr] = useState<QrCode | null>(null);
   const trigger = useRef<HTMLElement | null>(null);
+  const qrTrigger = useRef<HTMLElement | null>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
+  const qrCloseButton = useRef<HTMLButtonElement>(null);
   const close = useCallback(() => {
     if (document.activeElement === closeButton.current) trigger.current?.focus();
     setNotice(null);
@@ -21,14 +25,39 @@ export function FeedbackProvider({ children }: { children: ReactNode }) {
     trigger.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     setNotice({ text, id: Date.now() });
   }, []);
+  const showQr = useCallback((value: QrCode) => {
+    qrTrigger.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    setQr(value);
+  }, []);
+  const closeQr = useCallback(() => {
+    setQr(null);
+    qrTrigger.current?.focus();
+  }, []);
   useEffect(() => {
     if (!notice) return;
     const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") close(); };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [notice, close]);
-  return <FeedbackContext.Provider value={show}>
+  useEffect(() => {
+    if (!qr) return;
+    qrCloseButton.current?.focus();
+    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") closeQr(); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [qr, closeQr]);
+  return <FeedbackContext.Provider value={{ show, showQr }}>
     {children}
+    {qr && <div className={styles.qrBackdrop} onClick={closeQr}>
+      <section className={styles.qrDialog} role="dialog" aria-modal="true" aria-labelledby="qr-dialog-title" onClick={(event) => event.stopPropagation()}>
+        <div className={styles.qrDialogHeading}>
+          <div><h2 id="qr-dialog-title">添加我的{qr.name}</h2>{qr.account && <p>{qr.account}</p>}</div>
+          <button ref={qrCloseButton} className={styles.qrClose} type="button" onClick={closeQr} aria-label="关闭二维码">×</button>
+        </div>
+        <Image className={styles.qrImage} src={assetUrl(qr.src)} width={qr.width} height={qr.height} alt={`${qr.name}个人二维码`} />
+        <p className={styles.qrHint}>使用手机扫码添加</p>
+      </section>
+    </div>}
     <div className={styles.noticeRegion}>
       <div role="status" aria-live="polite" aria-atomic="true">
         {notice && <p key={notice.id}><span aria-hidden="true">[i]</span> {notice.text}</p>}
@@ -39,7 +68,7 @@ export function FeedbackProvider({ children }: { children: ReactNode }) {
 }
 
 export function EntryAction({ entry, children, className, onChoose, current = false }: { entry: EntryKey | Entry; children: ReactNode; className?: string; onChoose?: () => void; current?: boolean }) {
-  const show = useContext(FeedbackContext);
+  const { show } = useContext(FeedbackContext);
   const target = typeof entry === "string" ? entries[entry] : entry;
   return target.available
     ? <Link href={target.path} className={className} onClick={onChoose} aria-current={current ? "page" : undefined}>{children}</Link>
@@ -47,18 +76,18 @@ export function EntryAction({ entry, children, className, onChoose, current = fa
 }
 
 export function ProjectRepositoryLink({ name, href }: { name: string; href?: string }) {
-  const show = useContext(FeedbackContext);
+  const { show } = useContext(FeedbackContext);
   return href
     ? <a href={href} className={styles.projectLink} target="_blank" rel="noopener noreferrer" aria-label={`查看 ${name} 的 GitHub 仓库（在新标签页打开）`}><span>GitHub</span><span aria-hidden="true">↗</span></a>
     : <button type="button" className={styles.projectLink} aria-label={`${name} 的 GitHub 仓库链接待配置`} onClick={() => show(`${name} 的 GitHub 仓库链接待配置。`)}><span>GitHub</span><small>待配置</small></button>;
 }
 
 export function ConnectionAction({ connection, community = false, children, className }: { connection: Connection; community?: boolean; children?: ReactNode; className?: string }) {
-  const show = useContext(FeedbackContext);
+  const { show, showQr } = useContext(FeedbackContext);
   const content = children ?? <><Image src={assetUrl(`/icons/${connection.icon}.svg`)} width={18} height={18} alt="" />{connection.name}</>;
   return connection.href
     ? <a className={className} href={connection.href} target="_blank" rel="noopener noreferrer" aria-label={`${connection.name}（在新标签页打开）`}>{content}</a>
-    : <button className={className} type="button" aria-label={`${community ? "加入 " : ""}${connection.name}${connection.account ? " 联系方式" : community ? "，邀请链接待配置" : "，联系方式待配置"}`} onClick={() => show(connection.account ? `${connection.name}：${connection.account}` : `${connection.name} ${community ? "邀请链接" : "联系方式"}待配置。`)}>{content}</button>;
+    : <button className={className} type="button" aria-label={`${community ? "加入 " : ""}${connection.name}${connection.qr ? "二维码" : connection.account ? " 联系方式" : community ? "，邀请链接待配置" : "，联系方式待配置"}`} onClick={() => connection.qr ? showQr({ ...connection.qr, name: connection.name, account: connection.account }) : show(connection.account ? `${connection.name}：${connection.account}` : `${connection.name} ${community ? "邀请链接" : "联系方式"}待配置。`)}>{content}</button>;
 }
 
 export function Header({ currentEntry }: { currentEntry?: EntryKey }) {

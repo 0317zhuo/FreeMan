@@ -190,3 +190,51 @@ Use case: stylized-concept. Asset type: a single original grayscale texture for 
 ## 开发业务页素材复用（2026-10-03）
 
 `/development` 复用已有原创 `projects.webp`（1200×675）作为首屏构建概念插画，复用三张 `project-*-dot-source-static.webp` 作为项目示例静态视觉。未重新生图或加工原图，均通过 `assetUrl()` 加载；首屏插画预加载，项目图片延迟加载。图标复用现有 SVG，许可不变。
+
+## 雇佣页工牌头像（2026-10-04）
+
+`public/images/hire-avatar-pixel-256.webp` 来自用户提供的黑白像素头像 PNG，使用 Sharp 等比缩放至 256×256、白底合成并压缩为 WebP，保留完整头像并去除透明区域可能出现的黑线。仅用于 `/hire` 右侧工牌，通过 `assetUrl()` 加载。
+
+
+## 加入社区页原创点阵素材（2026-10-06）
+
+使用内置 `image_gen.imagegen` 分别生成两张新图，无参考图片输入，不复用站内装饰素材。输出保留在 Codex 生成目录；项目副本用 Sharp 等比缩放并压缩为 WebP，不手工绘制或修改视觉内容。
+
+| 本地文件 | 尺寸 / 大小 | 用途 |
+| --- | --- | --- |
+| `public/images/community-connections.webp` | 960×960 / 139,460 字节，RGBA 透明 WebP | 社区首屏：点阵丝带连接路径 |
+| `public/images/community-build-bridges.webp` | 1008×672 / 103,996 字节，RGBA 透明 WebP | 合作区：三个点阵平台与连接桥 |
+
+两图均通过 `assetUrl()` 加载；首屏预加载、合作图延迟加载，装饰图使用空 alt。平台 SVG 图标复用既有资源和许可。首次生成的带底图版本已替换为透明底版本，以下提示词对应当前文件。
+
+### 首屏完整生成提示词
+
+```text
+Use case: stylized-concept. Asset type: original hero artwork for FreeMan's community introduction website. Primary request: an airy sculptural network made of four interlinked irregular open loops, each composed entirely of thousands of tiny crisp halftone dots on a regular dot-matrix lattice. The open loops lean at different angles and connect gently, evoking independent people coming together. Fine monochrome near-black and gray stippling, a small restrained cobalt-blue dot cluster at two connection points, no solid surfaces. Warm white #fdfcfc flat backdrop. Square composition with complete sculpture contained in middle 78 percent, generous calm empty margins. Elegant technical editorial print aesthetic, subtle three-dimensional perspective and grayscale depth, light open structure, readable silhouette. No text, letters, typography, logos, people, avatars, UI, frames, watermarks, photorealism, gradients, glow, heavy shadows, mountains, spheres or cubes. Generate a brand new image.
+```
+
+### 合作区完整生成提示词
+
+```text
+```
++
+## 加入社区页点阵视觉重制（2026-10-06）
+
+按用户反馈移除点阵图底图和蓝色装饰，并取消页面黑色整块背景。两张当前使用的透明图均由内置 `image_gen.imagegen` 重新生成，不使用首次版本。Sharp 只负责缩放与 WebP 编码，保留图案外的 Alpha 透明区域。
+
+| 本地文件 | 尺寸 / 大小 | 用途 |
+| --- | --- | --- |
+| `public/images/community-connections.webp` | 960×960 / 139,460 字节 | 首屏：黑灰点阵丝带路径、透明 WebP |
+| `public/images/community-build-bridges.webp` | 1008×672 / 103,996 字节 | 合作区：三座相连平台、透明 WebP |
+
+### 首屏透明点阵素材提示词
+
+```text
+Use case: stylized-concept. Asset type: transparent hero artwork for a minimalist personal-community web page. Primary request: one graceful floating folded ribbon pathway that branches once and rejoins, suggesting people bringing different strengths into one shared project. Build the entire shape solely from hundreds of meticulously arranged near-black and dark-gray pixel halftone dots, with fine clean structural contours and beautifully even dot spacing. Strong legible silhouette, refined optical depth formed only by changing dot density and size, quiet and airy with clear open negative space. Warm-white webpage shows through every transparent gap and the shape interior. Composition: broad diagonal flow, centered, occupies about 72 percent of a square canvas, generous fully transparent margin; fits beside website copy without competing. Style: elegant monochrome generative print, crafted, crisp, deliberate, restrained. Background must be genuinely transparent with an alpha channel; all unpainted canvas pixels fully transparent, no white or off-white backdrop, no haze or opaque plate. No blue, no color, no loose labels, no text, no letters, no symbols, no logo, no frame, no shadow, no glow, no grainy background, no globe, no knotted rings, no staircase platforms, no people, no watermark. Generate a brand-new image.
+```
+
+### 合作区透明点阵素材提示词
+
+```text
+Use case: stylized-concept. Asset type: secondary transparent illustration for a shared project-building section of a minimalist community website. Primary request: a crisp bold isometric symbol of three simple square project islands joined by two wide solid-looking dotted bridges; the continuous route from left platform across center to right platform must read instantly. Each platform is a well-defined flat perspective diamond built from a tightly packed regular grid of very dark charcoal dots. The two bridge surfaces are broad continuous bands of equally dark dots, connected directly at platform edges. Strong even contrast and coherent silhouette; no delicately faded fragments, no isolated dots, no invisible low-contrast pattern. A restrained original generative-print look with perspective created by dot spacing only. Composition spans the central 80 percent of a landscape 3:2 canvas, all three platforms large enough to read beside webpage copy. Entirely transparent background, all blank space genuinely alpha 0, preserve alpha in every empty area, not a black or white plate. Neutral near-black and gray only; no blue. No text, writing, labels, digits, symbols, glows, shadows, fuzzy light, transparent dots within the central shape, spheres, ribbons, mesh, people, logo, UI, watermark. Deliberately simpler and heavier than a delicate particle illustration, exceptionally clear at thumbnail size. Generate a new image.
+```
