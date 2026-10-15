@@ -28,9 +28,9 @@ export const technologies = [
   { category: "COLLABORATION", label: "合作伙伴", items: [["Claude Code", "claude"], ["Codex", "openai"], ["OpenCode", "opencode"]] },
 ];
 export const projects = [
-  { slug: "mind-workspace", name: "Mind Workspace", category: "AI 应用 / 知识工作台", description: "让散落的笔记与文档，成为可以对话的知识。一个从收集、检索到整理的个人工作空间。", tags: ["Next.js", "RAG", "PostgreSQL"], mark: "01 / KNOWLEDGE", artwork: "project-knowledge-dot-source", icon: "nextdotjs", github: "" },
-  { slug: "freeman-web", name: "FreeMan Web", category: "Web / 个人空间", description: "把作品、想法和连接，放进一个持续生长的个人网站。", tags: ["React", "TypeScript"], mark: "02 / PERSONAL", artwork: "project-personal-dot-source", icon: "react", github: "https://github.com/0317zhuo/FreeMan" },
-  { slug: "tiny-saas", name: "Tiny SaaS", category: "SaaS / 工作流", description: "面向小团队的轻量任务工具，让日常协作少一点重复。", tags: ["Node.js", "PostgreSQL"], mark: "03 / WORKFLOW", artwork: "project-workflow-dot-source", icon: "nodedotjs", github: "" },
+  { slug: "freecode", name: "FreeCode", category: "AI 工具 / 终端编码助手", description: "在终端里与 AI 一起写代码。支持多模型对话、本机工具调用与工作区会话管理。", tags: ["TypeScript", "Bun", "Hono", "OpenTUI", "AI SDK"], mark: "01 / CODE", artwork: "project-knowledge-dot-source", icon: "typescript", github: "https://github.com/0317zhuo/FreeCode" },
+  { slug: "freeman", name: "FreeMan", category: "Web / 个人品牌网站", description: "展示作品、分享探索，也连接开发合作、工作机会与社区。这个持续构建的个人空间，就是你正在浏览的网站。", tags: ["Next.js", "React", "TypeScript", "Tailwind CSS"], mark: "02 / PERSONAL", artwork: "project-personal-dot-source", icon: "nextdotjs", github: "https://github.com/0317zhuo/FreeMan" },
+  { slug: "freedeboard", name: "freedeboard", category: "Web3 / 以太坊生态看板", description: "追踪以太坊生态代币价格，连接钱包查看多链持仓与资产价值，探索链上资产管理。", tags: ["Next.js", "TypeScript", "wagmi", "viem"], mark: "03 / WEB3", artwork: "project-workflow-dot-source", icon: "react", github: "https://github.com/0317zhuo/freedeboard" },
   { slug: "prompt-lab", name: "Prompt Lab", category: "AI 工具 / 创意实验", description: "收集、组织和比较提示词，让好用的方法可以再次使用。", tags: ["Python", "LLM API"], mark: "04 / EXPERIMENT" },
 ];
 export const services = [

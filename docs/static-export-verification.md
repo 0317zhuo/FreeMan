@@ -18,3 +18,11 @@
 - 状态页已通过构建与类型检查；未向生产站点注入渲染异常。
 - 本轮没有测量真实用户 Core Web Vitals，没有保存新的截图文件。
 - 正式域名与英文版本分别见 `todo-domain-seo.md`、`todo-internationalization.md`。当前同步静态首页无需路由 loading，装饰动效使用现有静态回退。
+
+## 真实仓库项目替换（2026-10-15）
+
+- 首页三张项目卡片替换为 FreeCode、FreeMan、freedeboard，更新名称、分类、简介、技术标签、图标与 GitHub 地址，保留原点阵素材和交互。移除首页「包含示例作品 / 概念展示」标记，同步调整复用项目数据的开发页与雇佣页说明。
+- FreeCode 依据公开 README 核对终端 AI 编码助手及技术栈；freedeboard 依据公开 package.json、页面 metadata 与看板源码核对价格和多链持仓功能，未宣传源码中尚未实现的实际质押能力或模拟收益。FreeMan 依据本地源码与 Git remote 核对；仓库随后已按用户要求设为公开，并通过匿名 GitHub API 验证。
+- `pnpm lint`、`pnpm build` 通过。检查三页导出 HTML 中的项目名称与 GitHub 地址，并确认首页项目素材对应本地文件。
+- 实际静态浏览器检查 1440、390、320px：文档无横向溢出，桌面三列、手机单列；桌面三张项目 Canvas 均就绪。仓库链接包含独立可访问名称，使用新标签页和 `noopener noreferrer`；键盘 Tab 可在仓库链接间切换，浏览器未记录错误或警告。
+- 本次未修改动效和素材加载逻辑，未重复验证减少动态效果、CORS、真实触控设备或线上性能；未部署。

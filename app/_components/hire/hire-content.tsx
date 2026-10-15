@@ -40,7 +40,7 @@ export default function HireContent() {
       <section className={styles.section} id="work" aria-labelledby="work-title">
         <div className={styles.sectionHeading}>
           <h2 id="work-title">[02] 作品与项目</h2>
-          <p>以下为个人项目展示，其中部分为可替换示例，不代表商业交付或受雇经历。实际负责内容、项目状态与成果资料待进一步核实。</p>
+          <p>以下为我的个人项目，涵盖终端 AI 工具、个人网站与 Web3 看板。欢迎查看仓库，一起交流实现思路与技术选择。</p>
         </div>
         <div className={styles.projectList}>
           {projects.slice(0, 3).map((project) => (
