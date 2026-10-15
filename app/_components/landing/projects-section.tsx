@@ -16,7 +16,6 @@ export default function ProjectsSection() {
         <h2 id="projects-title">[02] 我的项目</h2>
         <div className={styles.headingDescription}>
           <p>从个人工具到产品实验，在不同的问题里，寻找简单、好用的答案。</p>
-          <span className={styles.sampleBadge}>包含示例作品 / 概念展示</span>
         </div>
       </div>
       <div className={styles.projectGrid}>

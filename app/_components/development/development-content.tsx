@@ -49,7 +49,7 @@ export default function DevelopmentContent() {
       <section className={styles.section} id="work" aria-labelledby="work-title">
         <div className={styles.sectionHeading}>
           <h2 id="work-title">[02] 案例参考</h2>
-          <p>个人项目与产品想法，作为交流的起点。以下为可替换示例，非客户交付案例。</p>
+          <p>从终端 AI 工具到个人网站与 Web3 看板，用个人项目分享我的构建方向。可前往仓库查看代码与实现。</p>
         </div>
         <div className={styles.projectList}>
           {projects.slice(0, 3).map((project) => (
